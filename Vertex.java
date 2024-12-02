@@ -1,4 +1,4 @@
-package SudokuSolving;
+package SudokuSolver;
 import java.util.Set;
 import java.util.TreeSet;
 
