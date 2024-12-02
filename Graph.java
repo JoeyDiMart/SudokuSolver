@@ -54,4 +54,7 @@ public class Graph {
         }
     }
 
+    public int[][] getMatrix() {    // return matrix
+        return this.matrix;
+    }
 }
