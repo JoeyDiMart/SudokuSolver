@@ -1,4 +1,4 @@
-/*
+package SudokuSolver;/*
 Names: Joseph DiMartino, Nicole Scott, Daniel Jaffe
 Program: depthTest: This class will contain test for doing a DLS.
  */
@@ -7,10 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import SudokuSolver.DepthLimitedSearch;
-import SudokuSolver.Graph;
-
-public class depthtest {
+public class depthTest {
         public static void main(String[] args) {
         String filePath = "SudokuPuzzles.txt"; 
         Graph puzzle = new Graph();
