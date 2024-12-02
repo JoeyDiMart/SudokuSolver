@@ -29,36 +29,44 @@ public class DepthLimitedSearch {
             return false;
         }
 
-        // initialize next empty space in puzzle
+        /* implementation before improvement
         int[] emptySpace = nextEmptySpace();
+        */
 
-        // get row & column position of empty space
-        int row = emptySpace[0];
-        int col = emptySpace[1];
+        //--------------------IMPROVEMENT---------------------------
+        //(go to cell with best possible chance of finding soultion)
+        int[] cell = findCellWithfewestVals();
 
-        // get position value of empty space
-        int pos = (row * 9) + col + 1;
+        if (cell != null){
+            // get row & column position of best empty space
+            int row = cell[0];
+            int col = cell[1];
 
-        // try to insert all possible nums in puzzle (1-9)
-        for (int value = 1; value <= 9; value++) {
-            // check if value can be inserted without creating duplicates in row, col, or box
-            if (notFound(row, col, value)) {
-                graph.insertMatrix(value, pos);
+            // get position value of best empty space
+            int pos = (row * 9) + col + 1;
 
-                // recursive call to see if insertion leads to solution
-                if (depthLimitedSearch(depth+1)) {
-                    return true;
+            // try to insert all possible nums in space (1-9)
+            for (int value = 1; value <= 9; value++) {
+                // check if value can be inserted without creating duplicates in row, col, or box
+                if (notFound(row, col, value)) {
+                    graph.insertMatrix(value, pos);
+
+                    // recursive call to see if insertion leads to solution
+                    if (depthLimitedSearch(depth+1)) {
+                        return true;
+                    }
+
+                    // insertion did not lead to solution, undo move and reset back to 0
+                    graph.insertMatrix(0, pos);
                 }
-
-                // insertion did not lead to solution, undo move and reset back to 0
-                graph.insertMatrix(0, pos);
             }
         }
         // no solution found after insterting all nums
         return false;
     }
 
-    // function to find first empty space in puzzle
+    /*
+    // function before improvement to find first empty space in puzzle
     private int[] nextEmptySpace() {
         // go through all spaces in puzzle
         for (int i = 1; i <= 81; i++) {
@@ -72,6 +80,45 @@ public class DepthLimitedSearch {
         // no more empty spaces in puzzle
         return null;
     }
+    */
+
+    private int[] findCellWithfewestVals() {
+        int[] bestCell = null;
+
+        // start with max amount of empty spaces (all empty spaces in row, column, and box) so min is found
+        int minEmptySpaces = 27;
+
+        // check all spaces in puzzle
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (graph.getMatrix()[i][j] == 0) {
+                    // count how many empty spaces are in row, column, or box
+                    int count = countZeros(i, j);
+                    // set bestCell to space with lowest amount of empty spaces
+                    if (count < minEmptySpaces) {
+                        minEmptySpaces = count;
+                        bestCell = new int[]{i, j};
+                    }
+                }
+            }
+        }
+        //return space with least amount of zeros in row, col, or box
+        return bestCell;
+    }
+
+    // function to count the empty spaces are in row, column, or box
+    private int countZeros(int row, int col) {
+        int count = 0;
+
+        for (int value = 1; value <= 9; value++) {
+            // check if numbers 1-9 are in row, column, or box, if not must be empty
+            if (notFound(row, col, value)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
 
     private boolean notFound(int row, int col, int value) {
         // check if value is already in row or column
