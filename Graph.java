@@ -32,15 +32,23 @@ public class Graph {
         this.curr = temp;
     }
 
+
+    public void insertMatrix(int s, int pos) {  // method to create change values in the matrix
+        int i =  (pos-1) / 9;
+        int j = (pos-1) % 9;
+        this.matrix[i][j] = s;
+    }
+
+
     public void display() {  // print matrix
         int j = 0;
         int k = 0;
         for (int i = 0; i < (this.matrix.length * this.matrix.length); i++) {
-            System.out.print(matrix[j][k]);
-            j++; k++;
-            if (j > 9) {
-                System.out.println();
-                j = 0;
+            System.out.print(matrix[j][k] + " ");
+            k++;
+            if (k >= 9) {
+                System.out.println("");
+                j++;
                 k = 0;
             }
         }
