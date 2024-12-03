@@ -1,4 +1,5 @@
-package SudokuSolver;/*
+package SudokuSolver;
+/*
 Names: Joseph DiMartino, Nicole Scott, Daniel Jaffe
 Program: SudokuSolver: depthTest
 Description: This class will contain test for doing a DLS.

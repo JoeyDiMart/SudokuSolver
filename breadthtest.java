@@ -18,7 +18,7 @@ public class breadthtest {
             for (int i = 1; i < 82; i++) {
                 line = reader.readLine().split(" ");
                 puzzle.insertMatrix(Integer.parseInt(line[0]), i);
-            }ad
+            }
             System.out.println("Input Puzzle:");
             puzzle.display();
         } catch (IOException e) {
