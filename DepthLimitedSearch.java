@@ -1,6 +1,8 @@
 /*
 Names: Joseph DiMartino, Nicole Scott, Daniel Jaffe
-Program: DepthLimitedSearch: This class will contain methods for doing a DLS.
+Program: SudokuSolver: DepthLimitedSearch
+Description: : This class will contain methods for doing a DLS. This search will continue until the depth is
+greater than 80 (since the puzzle is 81 cells).
  */
 package SudokuSolver;
 
@@ -34,8 +36,8 @@ public class DepthLimitedSearch {
         */
 
         //--------------------IMPROVEMENT---------------------------
-        //(go to cell with best possible chance of finding soultion)
-        int[] cell = findCellWithfewestVals();
+        //(go to cell with best possible chance of finding solution)
+        int[] cell = findCellWithFewestVals();
 
         if (cell != null){
             // get row & column position of best empty space
@@ -82,7 +84,7 @@ public class DepthLimitedSearch {
     }
     */
 
-    private int[] findCellWithfewestVals() {
+    private int[] findCellWithFewestVals() {
         int[] bestCell = null;
 
         // start with max amount of empty spaces (all empty spaces in row, column, and box) so min is found

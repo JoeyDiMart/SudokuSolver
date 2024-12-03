@@ -1,6 +1,10 @@
 /*
 Names: Joseph DiMartino, Nicole Scott, Daniel Jaffe
-Program: BredthFirstSearch: This class will contain methods for doing a BFS
+Program: BredathFirstSearch: This class will contain methods for doing a BFS
+Description: This Graph class was made instead of using Java's Graph data structure since this one is fully customized
+for our Sudoku problem. It only contains the methods we need such as getMatrix, goPrev, insert, display, and insertMatrix.
+the graph has a current and a matrix property. The current is just a pointer and matrix is just a way for us to
+display each instance of a graph easier.
  */
 package SudokuSolver;
 

@@ -1,3 +1,10 @@
+/*
+Names: Joseph DiMartino, Nicole Scott, Daniel Jaffe
+Program: SudokuSolver: Main clas
+Description: This is the main class, basically the timer to track which search is faster takes place here as well
+as instances of the graphs are created here. In this class we read from the text file for the 9x9 Sudoku puzzles
+ */
+
 package SudokuSolver;
 import java.io.BufferedReader;
 import java.io.FileReader;

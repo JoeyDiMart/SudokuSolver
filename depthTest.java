@@ -1,6 +1,7 @@
 package SudokuSolver;/*
 Names: Joseph DiMartino, Nicole Scott, Daniel Jaffe
-Program: depthTest: This class will contain test for doing a DLS.
+Program: SudokuSolver: depthTest
+Description: This class will contain test for doing a DLS.
  */
 
 import java.io.BufferedReader;
