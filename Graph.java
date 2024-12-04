@@ -11,12 +11,18 @@ package SudokuSolver;
 public class Graph {
 
     private Vertex curr;
-    private int[][] matrix;
+    private final int[][] matrix;
 
     public Graph() {
         this.curr = new Vertex(-1, 0, 0, null);  // curr node starts at root (height 0)
         this.matrix = new int[9][9];
     }
+
+    public Graph(int[][] board) {
+        this.curr = new Vertex(-1, 0, 0, null);
+        this.matrix = board;
+    }
+
 
     public boolean goPrev() {  // back track
         if (this.curr.getHeight() == 0) {
@@ -56,6 +62,22 @@ public class Graph {
                 k = 0;
             }
         }
+        System.out.println();
+    }
+    // overload display() method since BFS does things differently, display with taking in a 2d array
+    public void display(int[][] board) {  // print matrix
+        int j = 0;
+        int k = 0;
+        for (int i = 0; i < (board.length * board.length); i++) {
+            System.out.print(board[j][k] + " ");
+            k++;
+            if (k >= 9) {
+                System.out.println("");
+                j++;
+                k = 0;
+            }
+        }
+        System.out.println();
     }
 
     public int[][] getMatrix() {    // return matrix

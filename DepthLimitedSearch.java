@@ -8,7 +8,7 @@ package SudokuSolver;
 
 public class DepthLimitedSearch {
 
-    private final Graph graph;
+    protected final Graph graph;
 
     public DepthLimitedSearch(Graph graph) {
         this.graph = graph;
@@ -36,7 +36,7 @@ public class DepthLimitedSearch {
         */
 
         //--------------------IMPROVEMENT---------------------------
-        //(go to cell with best possible chance of finding solution)
+        //(go to cell with the best possible chance of finding solution)
         int[] cell = findCellWithFewestVals();
 
         if (cell != null){
