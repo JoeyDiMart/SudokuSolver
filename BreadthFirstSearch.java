@@ -10,6 +10,10 @@ import java.util.Queue;
 
 
 public class BreadthFirstSearch {
+
+    protected Graph graph;
+    protected int[][] board;
+
     // representing a state of the sudoku board at a given level
     private static class BFS {
         private int[][] board;
@@ -94,7 +98,6 @@ public class BreadthFirstSearch {
                 }
             }
         }
-
         return true;
     }
 
@@ -104,4 +107,13 @@ public class BreadthFirstSearch {
             System.arraycopy(solution[i], 0, original[i], 0, 9);
         }
     }
+
+    // part of my attempt to use the graph data structure in BFS
+//    public void toGraph(int[][] board) {
+//        this.graph = new Graph(board);
+//    }
+
+
+
+
 }
