@@ -66,9 +66,10 @@ public class BreadthFirstSearch {
         return false;
     }
 
-    // helper method to move to the next cell (next row/column)
+    // helper method to move to the next cell
     private BFS nextBFS(BFS current) {
         // if we're at the last column, move to the next row and reset the column
+        
         int nextRow = current.col == 8 ? current.row + 1 : current.row;
         int nextCol = current.col == 8 ? 0 : current.col + 1;
         return new BFS(current.board, nextRow, nextCol);
