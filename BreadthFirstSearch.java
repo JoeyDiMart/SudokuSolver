@@ -36,6 +36,7 @@ public class BreadthFirstSearch {
             return copy;
         }
     }
+    // used https://favtutor.com/blogs/breadth-first-search-java to help me with the BFS solve function
     // method to solve the sudoku using bfs
     public boolean solve(Graph graph) {
         int[][] board = graph.getMatrix();
