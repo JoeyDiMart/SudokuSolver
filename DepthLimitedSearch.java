@@ -39,7 +39,7 @@ public class DepthLimitedSearch {
         //(go to cell with the best possible chance of finding solution)
         int[] cell = findCellWithFewestVals();
 
-        if (cell != null){
+        if (cell != null) {
             // get row & column position of best empty space
             int row = cell[0];
             int col = cell[1];
