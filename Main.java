@@ -12,7 +12,8 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        String filePath = "multipleSudokuPossiblities.txt"; // file path
+        String filePath = "SudokuFileRandomized.txt"; // file path
+        makeSudokuPuzzle.main(new String[]{});  // call main method from makeSudokuPuzzle
 
         // create three instances of the graphs (one for each difficulty)
         Graph easy_dls_puzzle = new Graph();
@@ -104,11 +105,6 @@ public class Main {
         else {
             System.out.println("BFS was faster by " + (hard_dls_time - hard_bfs_time) + "ns for hard puzzle");
         }
-
-
-
-
-
 
     }
     // Helper method to print the Sudoku board for BFS
