@@ -11,14 +11,12 @@ import java.util.Queue;
 
 public class BreadthFirstSearch {
 
-    protected Graph graph;
-    protected int[][] board;
 
     // representing a state of the sudoku board at a given level
     private static class BFS {
-        private int[][] board;
-        private int row;
-        private int col;
+        private final int[][] board;
+        private final int row;
+        private final int col;
 
         // constructor for bfs state
         BFS(int[][] board, int row, int col) {
@@ -74,9 +72,18 @@ public class BreadthFirstSearch {
     // helper method to move to the next cell
     private BFS nextBFS(BFS current) {
         // if we're at the last column, move to the next row and reset the column
-        
-        int nextRow = current.col == 8 ? current.row + 1 : current.row;
-        int nextCol = current.col == 8 ? 0 : current.col + 1;
+
+        int nextRow;
+        int nextCol;
+
+        if (current.col == 8) {
+            nextRow = current.row + 1;
+            nextCol = 0;
+        } else {
+            nextRow = current.row;
+            nextCol = current.col + 1;
+        }
+
         return new BFS(current.board, nextRow, nextCol);
     }
 
@@ -108,13 +115,6 @@ public class BreadthFirstSearch {
             System.arraycopy(solution[i], 0, original[i], 0, 9);
         }
     }
-
-    // part of my attempt to use the graph data structure in BFS
-//    public void toGraph(int[][] board) {
-//        this.graph = new Graph(board);
-//    }
-
-
 
 
 }

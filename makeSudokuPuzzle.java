@@ -1,93 +1,112 @@
 package SudokuSolver;
 
-import java.util.Arrays;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Random;
 
-// makes a sudoku box that is even
+// This makes random sudoku puzzles in format for a breath or depth first search either 2 or 3 sized
 public class makeSudokuPuzzle {
     public static void main(String[] args) {
-        // ask for size
+        // ask for the sub box dimensions
         Scanner sc1 = new Scanner(System.in);
-        System.out.print("Enter how big the sub box should be. For example a 3 x3 matrices as a sub box will make a 9x9 total box: ");
-        int size = sc1.nextInt();
+        System.out.print("Enter how big the sub box is (this can be as high as 3): ");
+        int subBoxSize = sc1.nextInt();
+        int gridSize = subBoxSize * subBoxSize;
 
-        // ask for difficulty
-        Scanner sc2 = new Scanner(System.in);
-        System.out.println("Choose difficulty: easy, medium, or hard");
-        String difficulty = sc2.nextLine().toLowerCase();
-        System.out.println(difficulty);
 
-        // if they choose one of the 3 difficulties
-        if (difficulty.equals("easy") || difficulty.equals("medium") || difficulty.equals("hard")) {
-            System.out.println(size);
-            int[] puzzle = generatePuzzle(size, difficulty);
-            System.out.println(Arrays.toString(puzzle));
-        }
-        // otherwise not easy medium or hard report error
-        else {
-            System.out.println("Invalid difficulty");
-        }
-    }
 
-    public static int[] generatePuzzle(int gridSize, String difficulty){
-        int blankSpaces = 0;
-        if (difficulty.equals("easy")){
-            blankSpaces = 2;
-        }
-        // gets the total amount of boxes
-        int[] grid = new int[gridSize * gridSize];
-        Random rand = new Random();
-
-        // fill the grid with random numbers
-        for (int i = 0; i < gridSize * gridSize; i++) {
-            int row = i / gridSize;
-            int col = i % gridSize;
-
-            // places numbers
-            // checks if number is a valid placement
-            int attempts = 0;
-            while (attempts < gridSize) {
-                int numToPlace = rand.nextInt(gridSize) + 1;
-                if (isValidPlacement(grid, gridSize, row, col, numToPlace)) {
-                    grid[i] = numToPlace;
-                    break;
+        int[][] puzzleEasy = generatePuzzle(gridSize, "easy");
+        int[][] puzzleMedium = generatePuzzle(gridSize, "medium");
+        int[][] puzzleHard = generatePuzzle(gridSize, "hard");
+            // learned how to write something into a text file and save it from Chatgpt
+            // write the puzzles to a text file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("SudokuFileRandomized.txt"))) {
+                for (int row = 0; row < puzzleEasy.length; row++) {
+                    for (int col = 0; col < puzzleEasy[row].length; col++) {
+                        writer.write(puzzleEasy[row][col] +" "+ puzzleMedium[row][col] +" "+ puzzleHard[row][col]+ "\n");
+                    }
                 }
-                attempts++;
+                writer.write("[EASY, MEDIUM, HARD]");
+
+                System.out.println("Puzzle saved to SudokuFileRandomized.txt");
+            } catch (IOException e) {
+                System.err.println("Error writing to file: " + e.getMessage());
+            }
+        }
+
+
+
+    public static int[][] generatePuzzle(int gridSize, String difficulty) {
+        // determine the number of blank spaces based on difficulty
+        int blankSpaces = switch (difficulty) {
+            case "easy" -> gridSize * gridSize / 4;
+            case "medium" -> gridSize * gridSize / 3;
+            case "hard" -> gridSize * gridSize / 2;
+            default -> 0;
+        };
+
+        int[][] grid = new int[gridSize][gridSize];
+        Random rand = new Random();
+        // fill the grid with valid numbers
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                boolean found = false;
+                int attempts = 0;
+
+                // try to place a valid number in the current cell
+                while (attempts <100) {
+                    int numToPlace = rand.nextInt(gridSize) + 1;
+                    if (isValid2(grid, row, col, numToPlace)) {
+                        grid[row][col] = numToPlace;
+                        found = true;
+                        break;
+                    }
+                    attempts++;
+                }
+
+                // if unable to place a number after many attempts, regenerate the grid
+                if (!found) {
+                    return generatePuzzle(gridSize, difficulty);
+                }
             }
         }
 
         // randomly remove numbers to create blank spaces
         for (int i = 0; i < blankSpaces; i++) {
-            int indexToBlank = rand.nextInt(gridSize * gridSize);
-            grid[indexToBlank] = 0;
+            int row = rand.nextInt(gridSize);
+            int col = rand.nextInt(gridSize);
+            grid[row][col] = 0; // Set the cell to blank
         }
 
         return grid;
     }
 
-    // checks if is valid placement
-    // return false means it can't go there returning true means it can go there
-    public static boolean isValidPlacement(int[] grid, int gridSize, int row, int col, int numToPlace) {
-        // check row and column
+    // helper method to check if placing a number is valid
+    private static boolean isValid2(int[][] board, int row, int col, int num) {
+        int gridSize = board.length;
+        int subGridSize = (int) Math.sqrt(gridSize);
+
+        // check row and column for conflicts
         for (int i = 0; i < gridSize; i++) {
-            if (grid[row*gridSize + i] != numToPlace || grid[i*gridSize + col] == numToPlace) {
+            if (board[row][i] == num || board[i][col] == num) {
                 return false;
             }
         }
-        // check inner box
-        int innerBoxSize = (int) Math.sqrt(gridSize);
-        int boxRowStart = (row/innerBoxSize)*innerBoxSize;
-        int boxColStart = (col/innerBoxSize)*innerBoxSize;
 
-        // now check inner box to find invalidations
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
-                if (grid[boxRowStart + i] != grid[boxColStart + j]) {
+        // check the sub-grid for conflicts
+        int startRow = (row / subGridSize) * subGridSize;
+        int startCol = (col / subGridSize) * subGridSize;
+        for (int i = startRow; i < startRow + subGridSize; i++) {
+            for (int j = startCol; j < startCol + subGridSize; j++) {
+                if (board[i][j] == num) {
                     return false;
                 }
             }
         }
+
         return true;
     }
+
 }
