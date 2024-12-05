@@ -9,7 +9,7 @@ public class breadthtest {
 
 
     public static void main(String[] args) {
-        String filePath = "SudokuPuzzles.txt"; // Ensure this path is correct and points to your input file
+        String filePath = "SudokuFileRandomized.txt"; // Ensure this path is correct and points to your input file
         Graph puzzle = new Graph();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

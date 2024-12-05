@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        String filePath = "SudokuPuzzles.txt"; // file path
+        String filePath = "multipleSudokuPossiblities.txt"; // file path
 
         // create three instances of the graphs (one for each difficulty)
         Graph easy_dls_puzzle = new Graph();

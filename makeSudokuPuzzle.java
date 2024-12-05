@@ -41,9 +41,9 @@ public class makeSudokuPuzzle {
     public static int[][] generatePuzzle(int gridSize, String difficulty) {
         // determine the number of blank spaces based on difficulty
         int blankSpaces = switch (difficulty) {
-            case "easy" -> gridSize * gridSize / 4;
-            case "medium" -> gridSize * gridSize / 3;
-            case "hard" -> gridSize * gridSize / 2;
+            case "easy" -> gridSize * 3;
+            case "medium" -> gridSize * 5;
+            case "hard" -> gridSize *9;
             default -> 0;
         };
 
