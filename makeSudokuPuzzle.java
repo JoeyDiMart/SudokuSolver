@@ -11,10 +11,9 @@ public class makeSudokuPuzzle {
     public static void main(String[] args) {
         // ask for the sub box dimensions
         Scanner sc1 = new Scanner(System.in);
-        System.out.print("Enter how big the sub box is (this can be as high as 3): ");
+        System.out.print("Enter how big the sub box is: ");
         int subBoxSize = sc1.nextInt();
         int gridSize = subBoxSize * subBoxSize;
-
 
 
         int[][] puzzleEasy = generatePuzzle(gridSize, "easy");
@@ -37,13 +36,12 @@ public class makeSudokuPuzzle {
         }
 
 
-
     public static int[][] generatePuzzle(int gridSize, String difficulty) {
         // determine the number of blank spaces based on difficulty
         int blankSpaces = switch (difficulty) {
             case "easy" -> gridSize * 3;
             case "medium" -> gridSize * 5;
-            case "hard" -> gridSize *9;
+            case "hard" -> gridSize * 9;
             default -> 0;
         };
 
