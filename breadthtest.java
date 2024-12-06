@@ -31,11 +31,13 @@ public class breadthtest {
 
         // max solutions you allow
         // depending on how good your memory is this might need to be higher or lower
-        int maxSolutions =2;
+        int maxSolutions =100000;
         // Create the BFS solver
         BreadthFirstSearch solver = new BreadthFirstSearch();
         List<int[][]> solutions = solver.solve(puzzle.getMatrix(), maxSolutions);
+        int count = 1;
         for (int[][] solution : solutions) {
+            System.out.println("solution " + count++);
             printBoard(solution);
         }
 

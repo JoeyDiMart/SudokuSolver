@@ -6,13 +6,12 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.Random;
 
-// This makes random sudoku puzzles in format for a breath or depth first search either 2 or 3 sized
+// This makes random sudoku puzzles for a 9 x 9
 public class makeSudokuPuzzle {
     public static void main(String[] args) {
-        // ask for the sub box dimensions
-        Scanner sc1 = new Scanner(System.in);
-        System.out.print("Enter how big the sub box is: ");
-        int subBoxSize = sc1.nextInt();
+        // this is the inner box size
+        int subBoxSize = 3;
+        // this is the whole grid size
         int gridSize = subBoxSize * subBoxSize;
 
 

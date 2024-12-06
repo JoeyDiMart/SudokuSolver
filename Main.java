@@ -70,23 +70,34 @@ public class Main {
 
 
         long start_easy_bfs = System.nanoTime();
-        easy_bfs.solve(easy_bfs_puzzle.getMatrix(),5);
+        List<int[][]> easySolutions = easy_bfs.solve(easy_bfs_puzzle.getMatrix(),100000);
         long easy_bfs_time = System.nanoTime() - start_easy_bfs;
         long start_medium_bfs = System.nanoTime();
-        medium_bfs.solve(medium_bfs_puzzle.getMatrix(),5);
+        List<int[][]> mediumSolutions = medium_bfs.solve(medium_bfs_puzzle.getMatrix(),100000);
         long medium_bfs_time = System.nanoTime() - start_medium_bfs;
         long start_hard_bfs = System.nanoTime();
-        List<int[][]> solutionHard = hard_bfs.solve(hard_bfs_puzzle.getMatrix(),5);
+        List<int[][]> hardSolutions = hard_bfs.solve(hard_bfs_puzzle.getMatrix(),1000000);
         long hard_bfs_time = System.nanoTime() - start_hard_bfs;
 
 
         System.out.println("---Easy BFS Puzzle Solved in " + easy_bfs_time + " ns ---");
-        printBoard(easy_bfs_puzzle.getMatrix());
+        int easyCount = 1;
+        for (int[][] solution : easySolutions) {
+            System.out.println("solution " + easyCount++);
+            printBoard(solution);
+        }
         System.out.println("---Medium BFS Puzzle Solved in " + medium_bfs_time + " ns ---");
-        printBoard(medium_bfs_puzzle.getMatrix());
+        int mediumCount = 1;
+        for (int[][] solution : mediumSolutions) {
+            System.out.println("solution " + mediumCount++);
+            printBoard(solution);
+        }
         System.out.println("---Hard BFS Puzzle Solved in " + hard_bfs_time + " ns ---");
-        printBoard(hard_bfs_puzzle.getMatrix());
-
+        int hardCount = 1;
+        for (int[][] solution : hardSolutions) {
+            System.out.println("solution " + hardCount++);
+            printBoard(solution);
+        }
         //----- Comparing results-----
         if (easy_bfs_time - easy_dls_time > 0) {
             System.out.println("DLS was faster by " + (easy_bfs_time - easy_dls_time) + "ns for easy puzzle");
