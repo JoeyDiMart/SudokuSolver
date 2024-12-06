@@ -3,6 +3,11 @@ Names: Joseph DiMartino, Nicole Scott, Daniel Jaffe
 Program: SudokuSolver: Main clas
 Description: This is the main class, basically the timer to track which search is faster takes place here as well
 as instances of the graphs are created here. In this class we read from the text file for the 9x9 Sudoku puzzles
+
+This code is based on the research article "Comparison Analysis of Breadth First Search and Depth Limited Search
+Algorithms in Sudoku Game." This research was done by Tirsa Ninia Lina and Matheus Supriyanto Rumetna to analyze the two
+search algorithms shown in this code and how they solve the Sudoku puzzles. The link to the article is attached:
+https://www.researchgate.net/publication/358642884_Comparison_Analysis_of_Breadth_First_Search_and_Depth_Limited_Search_Algorithms_in_Sudoku_Game
  */
 
 package SudokuSolver;
@@ -140,7 +145,5 @@ public class Main {
         }
         System.out.println();
     }
-
 }
-
 

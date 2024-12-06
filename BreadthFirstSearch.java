@@ -7,9 +7,6 @@ package SudokuSolver;
 
 import java.util.*;
 
-import static SudokuSolver.breadthtest.printBoard;
-
-
 public class BreadthFirstSearch {
     private final List<int[][]> solutions = new ArrayList<>();
 
