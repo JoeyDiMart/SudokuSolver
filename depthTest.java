@@ -8,10 +8,13 @@ Description: This class will contain test for doing a DLS.
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
+
+import static SudokuSolver.breadthtest.printBoard;
 
 public class depthTest {
         public static void main(String[] args) {
-        String filePath = "SudokuPuzzles.txt"; 
+        String filePath = "msp.txt";
         Graph puzzle = new Graph();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -28,17 +31,14 @@ public class depthTest {
             // Exit if there's an error reading the file
             return;
         }
-
         // Run Depth Limited Search
         DepthLimitedSearch dls = new DepthLimitedSearch(puzzle);
-        boolean solved = dls.solve();
+        List<int[][]> solutions = dls.solve();
+        int count = 1;
+        for (int[][] solution : solutions) {
+            System.out.println("solution " + count++);
+            printBoard(solution);
+            }
 
-        // Print the result
-        if (solved) {
-            System.out.println("\nSolved Puzzle:");
-            puzzle.display();
-        } else {
-            System.out.println("\nNo solution found with the depth-limited search.");
-        }
     }  
 }

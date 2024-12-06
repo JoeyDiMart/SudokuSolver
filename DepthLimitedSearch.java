@@ -6,29 +6,37 @@ greater than 80 (since the puzzle is 81 cells).
  */
 package SudokuSolver;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DepthLimitedSearch {
 
     protected final Graph graph;
+    private final int maxDepth;
+    private final List<int[][]>  solutions;
+
 
     public DepthLimitedSearch(Graph graph) {
         this.graph = graph;
+        this.solutions = new ArrayList<>();
+        this.maxDepth = 80;
     }
 
-    // base method for DLS
-    public boolean solve() {
-        return depthLimitedSearch(0);
+    public List<int[][]> solve(){
+        depthLimitedSearch(0);
+        return solutions;
     }
-
     // recursive method for DLS
-    private boolean depthLimitedSearch(int depth) {
-        // check if no empty spaces remain
+    private void depthLimitedSearch(int depth) {
+        // check if puzzle is completed
         if (isPuzzleFinished(graph)) {
-            return true;
+            solutions.add(deepCopy(graph.getMatrix()));
+            return;
         }
 
         // check if depth limit is reached
-        if (depth >= 80) {                                  //DEPTH LIMIT @ 80 BECAUSE PAPER USED SAME
-            return false;
+        if (depth >= maxDepth) {                                  //DEPTH LIMIT @ 80 BECAUSE PAPER USED SAME
+            return;
         }
 
         /* implementation before improvement
@@ -54,17 +62,14 @@ public class DepthLimitedSearch {
                     graph.insertMatrix(value, pos);
 
                     // recursive call to see if insertion leads to solution
-                    if (depthLimitedSearch(depth+1)) {
-                        return true;
-                    }
+                    depthLimitedSearch(depth+1);
+
 
                     // insertion did not lead to solution, undo move and reset back to 0
                     graph.insertMatrix(0, pos);
                 }
             }
         }
-        // no solution found after insterting all nums
-        return false;
     }
 
     /*
@@ -84,6 +89,14 @@ public class DepthLimitedSearch {
     }
     */
 
+    // helper to deep copy the puzzle matrix
+    private int[][] deepCopy(int[][] matrix) {
+        int[][] copy = new int[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            System.arraycopy(matrix[i],0,copy[i],0,matrix[i].length);
+        }
+        return copy;
+    }
     private int[] findCellWithFewestVals() {
         int[] bestCell = null;
 

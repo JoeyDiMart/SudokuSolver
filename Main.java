@@ -52,50 +52,61 @@ public class Main {
 
 
         long start_easy_dls = System.nanoTime();
-        easy_dls.solve();
+        List<int[][]> easySolutionsDLS=easy_dls.solve();
         long easy_dls_time = System.nanoTime() - start_easy_dls;
         long start_medium_dls = System.nanoTime();
-        medium_dls.solve();
+        List<int[][]> mediumSolutionsDLS=medium_dls.solve();
         long medium_dls_time = System.nanoTime() - start_medium_dls;
         long start_hard_dls = System.nanoTime();
-        hard_dls.solve();
+        List<int[][]> hardSolutionsDLS=hard_dls.solve();
         long hard_dls_time = System.nanoTime() - start_hard_dls;
 
         System.out.println("---Easy DLS Puzzle Solved in " + easy_dls_time + " ns ---");
-        easy_dls.graph.display();
-        System.out.println("---Medium DLS Puzzle Solved in " + medium_dls_time + " ns ---");
-        medium_dls.graph.display();
+        int easyCountDLS = 1;
+        for (int[][] solution : easySolutionsDLS) {
+            System.out.println("solution " + easyCountDLS++);
+            printBoard(solution);
+        }        System.out.println("---Medium DLS Puzzle Solved in " + medium_dls_time + " ns ---");
+        int mediumCountDLS = 1;
+        for (int[][] solution : mediumSolutionsDLS) {
+            System.out.println("solution " + mediumCountDLS++);
+            printBoard(solution);
+        }
         System.out.println("---Hard DLS Puzzle Solved in " + hard_dls_time + " ns ---");
-        hard_dls.graph.display();
+        int hardCountDLS = 1;
+        for (int[][] solution : hardSolutionsDLS) {
+            System.out.println("solution " + hardCountDLS++);
+            printBoard(solution);
+        }
 
 
         long start_easy_bfs = System.nanoTime();
-        List<int[][]> easySolutions = easy_bfs.solve(easy_bfs_puzzle.getMatrix(),100000);
+        List<int[][]> easySolutionsBFS = easy_bfs.solve(easy_bfs_puzzle.getMatrix(),100000);
         long easy_bfs_time = System.nanoTime() - start_easy_bfs;
         long start_medium_bfs = System.nanoTime();
-        List<int[][]> mediumSolutions = medium_bfs.solve(medium_bfs_puzzle.getMatrix(),100000);
+        List<int[][]> mediumSolutionsBFS = medium_bfs.solve(medium_bfs_puzzle.getMatrix(),100000);
         long medium_bfs_time = System.nanoTime() - start_medium_bfs;
         long start_hard_bfs = System.nanoTime();
-        List<int[][]> hardSolutions = hard_bfs.solve(hard_bfs_puzzle.getMatrix(),1000000);
+        List<int[][]> hardSolutionsBFS = hard_bfs.solve(hard_bfs_puzzle.getMatrix(),1000000);
         long hard_bfs_time = System.nanoTime() - start_hard_bfs;
 
 
         System.out.println("---Easy BFS Puzzle Solved in " + easy_bfs_time + " ns ---");
-        int easyCount = 1;
-        for (int[][] solution : easySolutions) {
-            System.out.println("solution " + easyCount++);
+        int easyCountBFS = 1;
+        for (int[][] solution : easySolutionsBFS) {
+            System.out.println("solution " + easyCountBFS++);
             printBoard(solution);
         }
         System.out.println("---Medium BFS Puzzle Solved in " + medium_bfs_time + " ns ---");
-        int mediumCount = 1;
-        for (int[][] solution : mediumSolutions) {
-            System.out.println("solution " + mediumCount++);
+        int mediumCountBFS = 1;
+        for (int[][] solution : mediumSolutionsBFS) {
+            System.out.println("solution " + mediumCountBFS++);
             printBoard(solution);
         }
         System.out.println("---Hard BFS Puzzle Solved in " + hard_bfs_time + " ns ---");
-        int hardCount = 1;
-        for (int[][] solution : hardSolutions) {
-            System.out.println("solution " + hardCount++);
+        int hardCountBFS = 1;
+        for (int[][] solution : hardSolutionsBFS) {
+            System.out.println("solution " + hardCountBFS++);
             printBoard(solution);
         }
         //----- Comparing results-----
