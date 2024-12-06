@@ -5,108 +5,72 @@ Description: This class will contain methods for doing a BFS
  */
 package SudokuSolver;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.lang.Math;
+import java.util.*;
+
+import static SudokuSolver.breadthtest.printBoard;
 
 
 public class BreadthFirstSearch {
+    private final List<int[][]> solutions = new ArrayList<>();
 
 
-    // representing a state of the sudoku board at a given level
-    private static class BFS {
-        private final int[][] board;
-        private final int row;
-        private final int col;
-
-        // constructor for bfs state
-        BFS(int[][] board, int row, int col) {
-            this.board = copyBoard(board);
-            this.row = row;
-            this.col = col;
-        }
-
-        // helper method to copy the board
-        private static int[][] copyBoard(int[][] original) {
-            int len = original.length;
-            int[][] copy = new int[len][len];
-            for (int i = 0; i < len; i++) {
-                System.arraycopy(original[i], 0, copy[i], 0, 9);
-            }
-            return copy;
-        }
-    }
-    // used https://favtutor.com/blogs/breadth-first-search-java to help me with the BFS solve function
+    // used https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/ to help me with the BFS solve function
     // method to solve the sudoku using bfs
-    public boolean solve(Graph graph) {
-        int[][] board = graph.getMatrix();
-        int len = graph.getMatrix().length;
-        Queue<BFS> queue = new LinkedList<>();
-        queue.add(new BFS(board, 0, 0));
+    public List<int[][]> solve(int[][] board, int maxSolutions) {
 
-        while (!queue.isEmpty()) {
-            BFS current = queue.poll();
+        // making a queue for BFS
+        Queue<int[][]> queue = new LinkedList<>();
+        // used chatgpt to put the copy board to the end of the queue
+        queue.offer(copyBoard(board));
 
-            // if we reach beyond the last row then the board is solved
-            if (current.row == len) {
-                copySolution(board, current.board);
-                return true;
-            }
 
-            // if the current cell is already filled move to the next cell
-            if (current.board[current.row][current.col] != 0) {
-                queue.add(nextBFS(current, board));
+        // go through the queue
+        while (!queue.isEmpty() && solutions.size() < maxSolutions) {
+            int[][] currentBoard = queue.poll();
+
+            // find the empty cell
+            int[] emptyCell = findEmptyCell(currentBoard);
+            if (emptyCell == null) {
+                // finds a solutions add it to list
+                solutions.add(copyBoard(currentBoard));
                 continue;
             }
 
-            // if the current cell is an answer box, try placing numbers 1-9 in it
-            for (int num = 1; num <= len; num++) {
-                if (isValid(current.board, current.row, current.col, num)) {
-                    current.board[current.row][current.col] = num;
-                    queue.add(nextBFS(current, board));
+            int row = emptyCell[0];
+            int col = emptyCell[1];
+
+
+            // now try numbers from 1 to x
+            for (int num = 1; num <= 9; num++) {
+                if (isValid(currentBoard, row, col, num)) {
+                    // set the number then make a copy
+                    currentBoard[row][col] = num;
+                    queue.offer(copyBoard(currentBoard));
+                    currentBoard[row][col] = 0;
                 }
             }
         }
-
-        // if no solution is found, return false
-        return false;
+        return solutions;
     }
-
-    // helper method to move to the next cell
-    private BFS nextBFS(BFS current, int[][] board) {
-        // if we're at the last column, move to the next row and reset the column ------------------------------------------------------
-        int len = board.length;
-        int nextRow;
-        int nextCol;
-        System.out.println();
-
-        if (current.col == len-1) {
-            nextRow = current.row + 1;
-            nextCol = 0;
-        } else {
-            nextRow = current.row;
-            nextCol = current.col + 1;
-        }
-
-        return new BFS(current.board, nextRow, nextCol);
-    }
-
     // helper method to check if placing a number is valid
     private boolean isValid(int[][] board, int row, int col, int num) {
-        // check the row and column for conflicts
-        int len = board.length;
-        int sublen = (int) Math.sqrt(len);
-        for (int i = 0; i < len; i++) {
-            if (board[row][i] == num || board[i][col] == num) {
+        // checks row
+        for (int i = 0; i < 9; i++) {
+            if (board[row][i] == num) {
                 return false;
             }
         }
-
+        // checks column
+        for (int i = 0; i < 9; i++) {
+            if (board[i][col] == num) {
+                return false;
+            }
+        }
         // check the 3x3 subgrid for conflicts
-        int startRow = row - row % sublen;
-        int startCol = col - col % sublen;
-        for (int i = startRow; i < startRow + sublen; i++) {
-            for (int j = startCol; j < startCol + sublen; j++) {
+        int startRow = row - row % 3;
+        int startCol = col - col % 3;
+        for (int i = startRow; i < startRow + 3; i++) {
+            for (int j = startCol; j < startCol + 3; j++) {
                 if (board[i][j] == num) {
                     return false;
                 }
@@ -115,13 +79,26 @@ public class BreadthFirstSearch {
         return true;
     }
 
-    // helper method to copy the solution back to the original board
-    private void copySolution(int[][] original, int[][] solution) {
-        int len = original.length;
-        for (int i = 0; i < len; i++) {
-            System.arraycopy(solution[i], 0, original[i], 0, len);
+    // finds the empty cells in a board
+    private int[] findEmptyCell(int[][] board) {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (board[row][col] == 0) {
+                    // if empty cell return position of that empty cell
+                    return new int[]{row, col};
+                }
+            }
         }
+        // otherwise no empty cell return null
+        return null;
     }
 
-
+    // helper method to copy the board
+    private static int[][] copyBoard(int[][] original) {
+        int[][] copy = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            System.arraycopy(original[i], 0, copy[i], 0, 9);
+        }
+        return copy;
+    }
 }

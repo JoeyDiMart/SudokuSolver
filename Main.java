@@ -9,6 +9,7 @@ package SudokuSolver;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -69,13 +70,13 @@ public class Main {
 
 
         long start_easy_bfs = System.nanoTime();
-        easy_bfs.solve(easy_bfs_puzzle);
+        easy_bfs.solve(easy_bfs_puzzle.getMatrix(),5);
         long easy_bfs_time = System.nanoTime() - start_easy_bfs;
         long start_medium_bfs = System.nanoTime();
-        medium_bfs.solve(medium_bfs_puzzle);
+        medium_bfs.solve(medium_bfs_puzzle.getMatrix(),5);
         long medium_bfs_time = System.nanoTime() - start_medium_bfs;
         long start_hard_bfs = System.nanoTime();
-        hard_bfs.solve(hard_bfs_puzzle);
+        List<int[][]> solutionHard = hard_bfs.solve(hard_bfs_puzzle.getMatrix(),5);
         long hard_bfs_time = System.nanoTime() - start_hard_bfs;
 
 

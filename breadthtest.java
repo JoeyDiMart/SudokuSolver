@@ -3,13 +3,14 @@ package SudokuSolver;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 // used chatgpt to create my test file and manipulated it to fit my test file
 public class breadthtest {
 
 
     public static void main(String[] args) {
-        String filePath = "SudokuFileRandomized.txt"; // Ensure this path is correct and points to your input file
+        String filePath = "msp.txt"; // Ensure this path is correct and points to your input file
         Graph puzzle = new Graph();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -27,20 +28,21 @@ public class breadthtest {
             return;
         }
 
+
+        // max solutions you allow
+        // depending on how good your memory is this might need to be higher or lower
+        int maxSolutions =2;
         // Create the BFS solver
         BreadthFirstSearch solver = new BreadthFirstSearch();
-
-        // checks if puzzle can be solved
-        if (solver.solve(puzzle)) {
-            System.out.println("Sudoku solved successfully! Here's the solution:");
-            printBoard(puzzle.getMatrix());
-        } else {
-            System.out.println("No solution could be found for the given Sudoku puzzle.");
+        List<int[][]> solutions = solver.solve(puzzle.getMatrix(), maxSolutions);
+        for (int[][] solution : solutions) {
+            printBoard(solution);
         }
+
     }
 
     // Helper method to print the Sudoku board
-    private static void printBoard(int[][] board) {
+    public static void printBoard(int[][] board) {
         for (int[] row : board) {
             for (int cell : row) {
                 System.out.print(cell + " ");
@@ -48,6 +50,7 @@ public class breadthtest {
             System.out.println();
         }
     }
+
 }
 
 
