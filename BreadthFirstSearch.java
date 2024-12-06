@@ -29,7 +29,7 @@ public class BreadthFirstSearch {
             int[][] currentBoard = queue.poll();
 
             // find the empty cell
-            int[] emptyCell = findEmptyCell(currentBoard);
+            int[] emptyCell = findCellWithFewestVals(currentBoard);
             if (emptyCell == null) {
                 // finds a solutions add it to list
                 solutions.add(copyBoard(currentBoard));
@@ -79,20 +79,43 @@ public class BreadthFirstSearch {
         return true;
     }
 
-    // finds the empty cells in a board
-    private int[] findEmptyCell(int[][] board) {
-        for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-                if (board[row][col] == 0) {
-                    // if empty cell return position of that empty cell
-                    return new int[]{row, col};
+    // finds the fewests values
+    private int[] findCellWithFewestVals(int[][] board) {
+        int[] bestCell = null;
+
+        // start with max amount of empty spaces (all empty spaces in row, column, and box (9x3)) so min is found
+        int minEmptySpaces = 27;
+
+        // check all spaces in puzzle
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == 0) {
+                    // count how many empty spaces are in row, column, or box
+                    int count = countZeros(board, i, j);
+                    // set bestCell to space with lowest amount of empty spaces
+                    if (count < minEmptySpaces) {
+                        minEmptySpaces = count;
+                        bestCell = new int[]{i, j};
+                    }
                 }
             }
         }
-        // otherwise no empty cell return null
-        return null;
+        //return space with least amount of zeros in row, col, or box
+        return bestCell;
     }
 
+    // function to count the empty spaces are in row, column, or box
+    private int countZeros(int[][] board, int row, int col) {
+        int count = 0;
+
+        for (int value = 1; value <= 9; value++) {
+            // check if numbers 1-9 are in row, column, or box, if not must be empty
+            if (isValid(board, row, col, value)) {
+                count++;
+            }
+        }
+        return count;
+    }
     // helper method to copy the board
     private static int[][] copyBoard(int[][] original) {
         int[][] copy = new int[9][9];
