@@ -22,12 +22,17 @@ public class DepthLimitedSearch {
         this.maxDepth = 80;
     }
 
-    public List<int[][]> solve(){
-        depthLimitedSearch(0);
+    public List<int[][]> solve(int maximumSolutions){
+        depthLimitedSearch(0,maximumSolutions);
         return solutions;
     }
     // recursive method for DLS
-    private void depthLimitedSearch(int depth) {
+    private void depthLimitedSearch(int depth, int maximumSolutions) {
+        // stops if maximum level is hit
+        if (solutions.size()>=maximumSolutions){
+            return;
+        }
+
         // check if puzzle is completed
         if (isPuzzleFinished(graph)) {
             solutions.add(deepCopy(graph.getMatrix()));
@@ -62,7 +67,7 @@ public class DepthLimitedSearch {
                     graph.insertMatrix(value, pos);
 
                     // recursive call to see if insertion leads to solution
-                    depthLimitedSearch(depth+1);
+                    depthLimitedSearch(depth+1,maximumSolutions);
 
 
                     // insertion did not lead to solution, undo move and reset back to 0

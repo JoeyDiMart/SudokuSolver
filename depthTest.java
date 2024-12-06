@@ -31,9 +31,10 @@ public class depthTest {
             // Exit if there's an error reading the file
             return;
         }
+        int maximumSolutions = 1000000;
         // Run Depth Limited Search
         DepthLimitedSearch dls = new DepthLimitedSearch(puzzle);
-        List<int[][]> solutions = dls.solve();
+        List<int[][]> solutions = dls.solve(maximumSolutions);
         int count = 1;
         for (int[][] solution : solutions) {
             System.out.println("solution " + count++);
