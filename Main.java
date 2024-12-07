@@ -46,7 +46,7 @@ public class Main {
             System.err.println("Error reading the file: " + e.getMessage());
         }
 
-
+        int maximumSolutions = 100000;
         DepthLimitedSearch easy_dls = new DepthLimitedSearch(easy_dls_puzzle);
         DepthLimitedSearch medium_dls = new DepthLimitedSearch(medium_dls_puzzle);
         DepthLimitedSearch hard_dls = new DepthLimitedSearch(hard_dls_puzzle);
@@ -57,13 +57,13 @@ public class Main {
 
 
         long start_easy_dls = System.nanoTime();
-        List<int[][]> easySolutionsDLS=easy_dls.solve();
+        List<int[][]> easySolutionsDLS=easy_dls.solve(maximumSolutions);
         long easy_dls_time = System.nanoTime() - start_easy_dls;
         long start_medium_dls = System.nanoTime();
-        List<int[][]> mediumSolutionsDLS=medium_dls.solve();
+        List<int[][]> mediumSolutionsDLS=medium_dls.solve(maximumSolutions);
         long medium_dls_time = System.nanoTime() - start_medium_dls;
         long start_hard_dls = System.nanoTime();
-        List<int[][]> hardSolutionsDLS=hard_dls.solve();
+        List<int[][]> hardSolutionsDLS=hard_dls.solve(maximumSolutions);
         long hard_dls_time = System.nanoTime() - start_hard_dls;
 
         System.out.println("---Easy DLS Puzzle Solved in " + easy_dls_time + " ns ---");
@@ -86,13 +86,13 @@ public class Main {
 
 
         long start_easy_bfs = System.nanoTime();
-        List<int[][]> easySolutionsBFS = easy_bfs.solve(easy_bfs_puzzle.getMatrix(),100000);
+        List<int[][]> easySolutionsBFS = easy_bfs.solve(easy_bfs_puzzle.getMatrix(),maximumSolutions);
         long easy_bfs_time = System.nanoTime() - start_easy_bfs;
         long start_medium_bfs = System.nanoTime();
-        List<int[][]> mediumSolutionsBFS = medium_bfs.solve(medium_bfs_puzzle.getMatrix(),100000);
+        List<int[][]> mediumSolutionsBFS = medium_bfs.solve(medium_bfs_puzzle.getMatrix(),maximumSolutions);
         long medium_bfs_time = System.nanoTime() - start_medium_bfs;
         long start_hard_bfs = System.nanoTime();
-        List<int[][]> hardSolutionsBFS = hard_bfs.solve(hard_bfs_puzzle.getMatrix(),1000000);
+        List<int[][]> hardSolutionsBFS = hard_bfs.solve(hard_bfs_puzzle.getMatrix(),maximumSolutions);
         long hard_bfs_time = System.nanoTime() - start_hard_bfs;
 
 
