@@ -14,12 +14,14 @@ public class DepthLimitedSearch {
     protected final Graph graph;
     private final int maxDepth;
     private final List<int[][]>  solutions;
+    private final int len;
 
 
     public DepthLimitedSearch(Graph graph) {
         this.graph = graph;
+        this.len = graph.getMatrix().length;
         this.solutions = new ArrayList<>();
-        this.maxDepth = 80;
+        this.maxDepth = this.len * this.len - 1;
     }
 
     public List<int[][]> solve(){
@@ -53,10 +55,10 @@ public class DepthLimitedSearch {
             int col = cell[1];
 
             // get position value of best empty space
-            int pos = (row * 9) + col + 1;
+            int pos = (row * this.len) + col + 1;
 
             // try to insert all possible nums in space (1-9)
-            for (int value = 1; value <= 9; value++) {
+            for (int value = 1; value <= this.len; value++) {
                 // check if value can be inserted without creating duplicates in row, col, or box
                 if (notFound(row, col, value)) {
                     graph.insertMatrix(value, pos);
@@ -91,8 +93,8 @@ public class DepthLimitedSearch {
 
     // helper to deep copy the puzzle matrix
     private int[][] deepCopy(int[][] matrix) {
-        int[][] copy = new int[matrix.length][matrix[0].length];
-        for (int i = 0; i < matrix.length; i++) {
+        int[][] copy = new int[this.len][matrix[0].length];
+        for (int i = 0; i < this.len; i++) {
             System.arraycopy(matrix[i],0,copy[i],0,matrix[i].length);
         }
         return copy;
@@ -101,11 +103,11 @@ public class DepthLimitedSearch {
         int[] bestCell = null;
 
         // start with max amount of empty spaces (all empty spaces in row, column, and box) so min is found
-        int minEmptySpaces = 27;
+        int minEmptySpaces = this.len * 3;
 
         // check all spaces in puzzle
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < this.len; i++) {
+            for (int j = 0; j < this.len; j++) {
                 if (graph.getMatrix()[i][j] == 0) {
                     // count how many empty spaces are in row, column, or box
                     int count = countZeros(i, j);
@@ -136,20 +138,21 @@ public class DepthLimitedSearch {
 
 
     private boolean notFound(int row, int col, int value) {
+        int sub_len = (int) Math.sqrt(this.len);
         // check if value is already in row or column
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < this.len; i++) {
             if (graph.getMatrix()[row][i] == value || graph.getMatrix()[i][col] == value) {
                 return false;
             }
         }
 
         // initalize beginning of 3x3 box
-        int boxRowStart = (row / 3) * 3;
-        int boxColStart = (col / 3) * 3;
+        int boxRowStart = (row / sub_len) * 3;
+        int boxColStart = (col / sub_len) * 3;
 
         // check if value is already in 3x3 box
-        for(int i = 0; i < 3; i ++) {
-            for(int  j= 0; j < 3; j ++) {
+        for(int i = 0; i < sub_len; i ++) {
+            for(int  j= 0; j < sub_len; j ++) {
                 if (graph.getMatrix()[boxRowStart + i][boxColStart + j] == value){
                     return false;
                 }
@@ -163,9 +166,9 @@ public class DepthLimitedSearch {
     // function to see if all puzzle spaces are filled
     private boolean isPuzzleFinished(Graph graph){
         // go through all spaces in puzzle
-        for(int i = 1; i <= 81; i++) {
-            int row = (i - 1) / 9;
-            int col = (i - 1) % 9;
+        for(int i = 1; i <= this.maxDepth+1; i++) {
+            int row = (i - 1) / this.len;
+            int col = (i - 1) % this.len;
 
             // check if there is empty space in puzzle, if so puzzle is not complete
             if (graph.getMatrix()[row][col] == 0) {
